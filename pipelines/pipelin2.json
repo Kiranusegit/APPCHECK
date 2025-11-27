@@ -1,0 +1,82 @@
+{
+  "name": "PIPELIN2",
+  "type": "Custom Pipeline",
+  "description": "",
+  "steps": [
+    {
+      "id": "f8ff5951-a9e4-4902-8fa8-cbaaede9573a",
+      "type": "Read Data",
+      "params": {
+        "step_name": "Read Data",
+        "description": "",
+        "output_name": "read_data_0"
+      }
+    },
+    {
+      "id": "cacfdfef-efb8-4429-9d15-55d67a77b5e2",
+      "type": "Filter",
+      "params": {
+        "step_name": "Filter",
+        "description": "",
+        "output_name": "filter_1"
+      }
+    },
+    {
+      "id": "30fd91be-5120-42a5-b645-575fbf4df9a8",
+      "type": "Filter",
+      "params": {
+        "step_name": "Filter",
+        "description": "",
+        "output_name": "filter_2"
+      }
+    },
+    {
+      "id": "98c03b43-b8b5-476d-86a1-ed29c61e9512",
+      "type": "Aggregation",
+      "params": {
+        "step_name": "Aggregation",
+        "description": "",
+        "output_name": "aggregation_3"
+      }
+    },
+    {
+      "id": "a82a6960-0006-40ec-b28c-11bea74e14f8",
+      "type": "Read Data",
+      "params": {
+        "step_name": "Read Data",
+        "description": "",
+        "output_name": "read_data_4"
+      }
+    },
+    {
+      "id": "b21d7bf5-4be8-4102-b770-0973ee7c4703",
+      "type": "Join",
+      "params": {
+        "step_name": "Join",
+        "description": "",
+        "output_name": "join_5",
+        "left_input": "read_data_4",
+        "right_input": "aggregation_3",
+        "join_type": "inner",
+        "on": ""
+      }
+    },
+    {
+      "id": "63b4553b-50ea-4ae6-a3e9-c16680a59ce6",
+      "type": "Write Data",
+      "params": {
+        "step_name": "Write Data",
+        "description": "",
+        "output_name": "write_data_6",
+        "format": "Parquet",
+        "mode": "overwrite",
+        "path": ""
+      }
+    }
+  ],
+  "parameters": {
+    "Para1": "Para_value"
+  },
+  "created_at": "2025-11-27 20:03:40.726110",
+  "updated_at": "2025-11-27 20:04:40.153244"
+}
