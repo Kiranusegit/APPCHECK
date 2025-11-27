@@ -1,0 +1,31 @@
+{
+  "name": "TEST1",
+  "type": "Lift and Shift",
+  "description": "",
+  "steps": [
+    {
+      "id": "2a67d0bd-27c0-44c5-99aa-0a348bb34dfe",
+      "type": "Read Data",
+      "params": {
+        "step_name": "Read Data",
+        "description": "Source data",
+        "output_name": "read_data_0"
+      }
+    },
+    {
+      "id": "8502e366-864b-430e-ad74-34b93f883841",
+      "type": "Write Data",
+      "params": {
+        "step_name": "Write Data",
+        "description": "Target data",
+        "input_df": "read_data_0",
+        "format": "Parquet",
+        "mode": "overwrite",
+        "path": ""
+      }
+    }
+  ],
+  "parameters": {},
+  "created_at": "2025-11-27 19:14:49.780670",
+  "updated_at": "2025-11-27 19:15:00.729956"
+}
