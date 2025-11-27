@@ -24,7 +24,9 @@
       "params": {
         "step_name": "Filter",
         "description": "",
-        "output_name": "filter_1"
+        "output_name": "filter_1",
+        "input_df": "read_data_0",
+        "condition": "filter condition"
       }
     },
     {
@@ -84,5 +86,5 @@
     "Para1": "Para_value"
   },
   "created_at": "2025-11-27 20:03:40.726110",
-  "updated_at": "2025-11-27 22:19:07.149072"
+  "updated_at": "2025-11-27 22:21:35.354296"
 }
