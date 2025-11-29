@@ -1,34 +1,77 @@
 import os
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, struct
+from pyspark.sql import SparkSession, functions
 from pyspark.sql.types import *
+from pyspark.sql.functions import col
+import json
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages "org.apache.hadoop:hadoop-aws:2.7.3" --conf spark.hadoop.fs.s3a.access.key=XXXXX  --conf spark.hadoop.fs.s3a.secret.key=XXXXXXX spark-shell'
+spark = SparkSession \
+    .builder\
+    .appName("SAMPLE_PIPELINE")\
+    .config('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:2.7.3')\
+    .getOrCreate()
 
-# Create a SparkSession with appropriate configurations
-spark = (SparkSession.builder.appName("SAMPLE_PIPELINE")
-      .config("spark.jars.packages", "com.databricks:spark-csv_2.11:1.5.0")
-      .getOrCreate())
+# Step 1 - Start node from the pipeline input
+start_df = spark.read \
+              .format("com.databricks.spark.csv") \
+              .option("header", "true") \
+              .option("inferschema", "true") \
+              .load("s3://bucketname/file_path")
 
-# Set the SparkContext as active
-sc = spark.sparkContext
+# Step 2 - Read data from S3 bucket and transform it into desired format
+read_df = spark.read \
+               .format("com.databricks.spark.csv") \
+               .option("header", "true") \
+               .option("inferschema", "true") \
+               .load("s3://bucketname/file_path")
+read_df = read_df.withColumn(col("DATE"), functions.to_date(col("DATE")))
+read_df = read_df.withColumn(col("TIME"), functions.to_timestamp(col("TIME")))
 
-# Define the schema for the data
-schema = StructType([
-    StructField("id", IntegerType(), True),
-    StructField("age", IntegerType(), True),
-    StructField("name", StringType(), True),
-])
+# Step 3 - Transform data using PySpark DataFrame operations
+transformed_df = read_df\
+                 .select(col("*")) \
+                 .filter(read_df['ID'] != "") \
+                 .groupBy('ID') \
+                 .agg(functions.count('*').alias('COUNT'))
 
-# Step 1: Start with a dataset of (id, age, name) tuples
-input_data = [(1, 25, "Alice"), (2, 30, "Bob"), (3, 35, "Charlie")]
-df = spark.createDataFrame(input_data, schema)
+# Step 4 - Write data to S3 bucket in CSV format
+write_df = transformed_df\
+            .coalesce(1)\
+            .write\
+            .format("com.databricks.spark.csv")\
+            .option("header", "true")\
+            .option("inferschema", "true")\
+            .mode('overwrite') \
+            .save("s3://bucketname/file_path")
 
-# Step 2: Read data from a CSV file and transform it into a new dataset
-csv_file_path = os.path.join(os.getcwd(), "sample.csv")
-csv_data = spark.read.format("csv").option("header", "true").load(csv_file_path)
+#Step 5 - Transform data using PySpark DataFrame operations
+transformed_df2 = read_df\
+                   .select(col("*")) \
+                   .filter(read_df['ID'] != "") \
+                   .groupBy('ID') \
+                   .agg(functions.count('*').alias('COUNT')) \
+                   .withColumn(col("DATE"), functions.to_date(col("DATE"))) \
+                   .withColumn(col("TIME"), functions.to_timestamp(col("TIME")))
 
-# Convert the data to the correct schema
-transformed_data = csv_data.selectExpr("CAST(id AS INT)", "CAST(age AS INT)", "name")
+#Step 6 - Write data to S3 bucket in JSON format
+write_df = transformed_df2\
+            .coalesce(1)\
+            .write\
+            .format("com.databricks.spark.csv")\
+            .option("header", "true")\
+            .option("inferschema", "true")\
+            .mode('overwrite') \
+            .save("s3://bucketname/file_path")
 
-# Step 3: Write the transformed data back to a CSV file as a new dataset
-output_file_path = os.path.join(os.getcwd(), "output.csv")
-transformed_data.write.format("csv").option("header", "true").save(output_file_path)
+# Step 7 - Add any final transformations and data processing steps
+final_df = transformed_df2.withColumn(col("DATE"), functions.to_date(col("DATE"))) \
+                          .withColumn(col("TIME"), functions.to_timestamp(col("TIME")))
+
+# Step 8 - Write final output to S3 bucket in JSON format
+final_df.coalesce(1)\
+        .write\
+        .format("com.databricks.spark.csv")\
+        .option("header", "true")\
+        .option("inferschema", "true")\
+        .mode('overwrite') \
+        .save("s3://bucketname/file_path")\
+				.show()
