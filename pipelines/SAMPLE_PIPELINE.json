@@ -1,0 +1,85 @@
+{
+  "name": "SAMPLE_PIPELINE",
+  "nodes": [
+    {
+      "id": "1",
+      "position": {
+        "x": 173,
+        "y": -58.5
+      },
+      "data": {
+        "label": "Start"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_0",
+      "type": "default",
+      "position": {
+        "x": 369.75,
+        "y": -69.75
+      },
+      "data": {
+        "label": "Read Data node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_1",
+      "type": "default",
+      "position": {
+        "x": 443.75,
+        "y": 14.25
+      },
+      "data": {
+        "label": "Transform node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      }
+    },
+    {
+      "id": "dndnode_2",
+      "type": "default",
+      "position": {
+        "x": 213.75,
+        "y": 128.75
+      },
+      "data": {
+        "label": "Write Data node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "1",
+      "target": "dndnode_0",
+      "id": "xy-edge__1-dndnode_0"
+    },
+    {
+      "source": "dndnode_0",
+      "target": "dndnode_1",
+      "id": "xy-edge__dndnode_0-dndnode_1"
+    },
+    {
+      "source": "dndnode_1",
+      "target": "dndnode_2",
+      "id": "xy-edge__dndnode_1-dndnode_2"
+    }
+  ]
+}
