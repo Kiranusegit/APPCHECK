@@ -1,0 +1,258 @@
+{
+  "name": "SMP_PIPELINE",
+  "nodes": [
+    {
+      "id": "dndnode_0",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 400
+      },
+      "data": {
+        "label": "Aggregate node",
+        "nodeType": "Aggregate"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_1",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "data": {
+        "label": "Join node",
+        "nodeType": "Join"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_2",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "data": {
+        "label": "Custom SQL node",
+        "nodeType": "Custom SQL",
+        "description": "",
+        "sourceType": "database",
+        "provider": "",
+        "jdbcUrl": "",
+        "username": "",
+        "password": "",
+        "dbProperties": "",
+        "bucket": "",
+        "path": "",
+        "accessKey": "",
+        "secretKey": "",
+        "query": "# Define a case insensitive not equal to condition for city\ncond = F.col(\"city\").isNot(F.lit(\"NEW YORK\")).alias(\"not_new_york\")\n\n# Filter the rows where city is not equal to \"New York\"\nfiltered_df = df.filter(cond)\n```\nThis code defines a case-insensitive `NOT EQUAL` condition for the `city` column using the `isNot()` method of Spark's `Column` class. The resulting expression is then aliased as `not_new_york`.\n\nThe filtered dataframe is then created by applying this expression to the input dataframe using the `filter()` operation. This will return a new dataframe that contains only the rows where the `city` column does not equal \"New York\".\n\nNote that this code assumes that you have already imported the necessary Spark libraries, and that you are working with a Spark DataFrame called `df`.",
+        "unionType": "Union",
+        "joinType": "Inner Join",
+        "joinCondition": "",
+        "filterCondition": "",
+        "aggregateFunction": "SUM",
+        "aggregateColumn": "",
+        "groupByColumns": "",
+        "sqlPrompt": "select all the rows where city is not equal to newyork and comparison should be case insensitve.",
+        "pysparkPrompt": ""
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false
+    },
+    {
+      "id": "dndnode_4",
+      "type": "default",
+      "position": {
+        "x": 0,
+        "y": 100
+      },
+      "data": {
+        "label": "Read Data node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_0",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 400
+      },
+      "data": {
+        "label": "Join node",
+        "nodeType": "Join"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_1",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 200
+      },
+      "data": {
+        "label": "Join node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false
+    },
+    {
+      "id": "dndnode_2",
+      "type": "default",
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "data": {
+        "label": "Custom SQL node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      }
+    },
+    {
+      "id": "dndnode_4",
+      "type": "default",
+      "position": {
+        "x": 0,
+        "y": 100
+      },
+      "data": {
+        "label": "Read Data node",
+        "nodeType": "Read Data"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_14",
+      "type": "default",
+      "position": {
+        "x": 200,
+        "y": 100
+      },
+      "data": {
+        "label": "Filter node",
+        "nodeType": "Filter"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_15",
+      "type": "default",
+      "position": {
+        "x": 200,
+        "y": 0
+      },
+      "data": {
+        "label": "Read Data node",
+        "nodeType": "Read Data"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "dndnode_17",
+      "type": "default",
+      "position": {
+        "x": 174.8550168275612,
+        "y": 524.1264021032412
+      },
+      "data": {
+        "label": "Write Data node"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "dndnode_1",
+      "target": "dndnode_2",
+      "label": "Join",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_1-dndnode_2"
+    },
+    {
+      "source": "dndnode_2",
+      "target": "dndnode_0",
+      "label": "Custom SQL",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_2-dndnode_0"
+    },
+    {
+      "source": "dndnode_4",
+      "target": "dndnode_1",
+      "label": "Read Data",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_4-dndnode_1"
+    },
+    {
+      "source": "dndnode_14",
+      "target": "dndnode_1",
+      "label": "Filter",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_14-dndnode_1"
+    },
+    {
+      "source": "dndnode_15",
+      "target": "dndnode_14",
+      "label": "Read Data",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_15-dndnode_14"
+    },
+    {
+      "source": "dndnode_0",
+      "target": "dndnode_17",
+      "label": "Aggregate",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_0-dndnode_17"
+    }
+  ]
+}
