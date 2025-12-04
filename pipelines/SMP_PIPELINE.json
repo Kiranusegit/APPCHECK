@@ -2,24 +2,6 @@
   "name": "SMP_PIPELINE",
   "nodes": [
     {
-      "id": "dndnode_0",
-      "type": "default",
-      "position": {
-        "x": 100,
-        "y": 400
-      },
-      "data": {
-        "label": "Aggregate node",
-        "nodeType": "Aggregate"
-      },
-      "measured": {
-        "width": 150,
-        "height": 40
-      },
-      "selected": false,
-      "dragging": false
-    },
-    {
       "id": "dndnode_1",
       "type": "default",
       "position": {
@@ -84,24 +66,6 @@
       },
       "data": {
         "label": "Read Data node"
-      },
-      "measured": {
-        "width": 150,
-        "height": 40
-      },
-      "selected": false,
-      "dragging": false
-    },
-    {
-      "id": "dndnode_0",
-      "type": "default",
-      "position": {
-        "x": 100,
-        "y": 400
-      },
-      "data": {
-        "label": "Join node",
-        "nodeType": "Join"
       },
       "measured": {
         "width": 150,
@@ -209,6 +173,24 @@
         "width": 150,
         "height": 40
       }
+    },
+    {
+      "id": "dndnode_18",
+      "type": "default",
+      "position": {
+        "x": 135.77890235132682,
+        "y": 387.63160995087685
+      },
+      "data": {
+        "label": "Aggregate node",
+        "nodeType": "Aggregate"
+      },
+      "measured": {
+        "width": 150,
+        "height": 40
+      },
+      "selected": false,
+      "dragging": false
     }
   ],
   "edges": [
@@ -220,25 +202,20 @@
       "id": "xy-edge__dndnode_1-dndnode_2"
     },
     {
-      "source": "dndnode_2",
-      "target": "dndnode_0",
-      "label": "Custom SQL",
-      "type": "smoothstep",
-      "id": "xy-edge__dndnode_2-dndnode_0"
-    },
-    {
       "source": "dndnode_4",
       "target": "dndnode_1",
       "label": "Read Data",
       "type": "smoothstep",
-      "id": "xy-edge__dndnode_4-dndnode_1"
+      "id": "xy-edge__dndnode_4-dndnode_1",
+      "selected": false
     },
     {
       "source": "dndnode_14",
       "target": "dndnode_1",
       "label": "Filter",
       "type": "smoothstep",
-      "id": "xy-edge__dndnode_14-dndnode_1"
+      "id": "xy-edge__dndnode_14-dndnode_1",
+      "selected": false
     },
     {
       "source": "dndnode_15",
@@ -248,11 +225,18 @@
       "id": "xy-edge__dndnode_15-dndnode_14"
     },
     {
-      "source": "dndnode_0",
+      "source": "dndnode_18",
       "target": "dndnode_17",
       "label": "Aggregate",
       "type": "smoothstep",
-      "id": "xy-edge__dndnode_0-dndnode_17"
+      "id": "xy-edge__dndnode_18-dndnode_17"
+    },
+    {
+      "source": "dndnode_2",
+      "target": "dndnode_18",
+      "label": "Custom SQL",
+      "type": "smoothstep",
+      "id": "xy-edge__dndnode_2-dndnode_18"
     }
   ]
 }
