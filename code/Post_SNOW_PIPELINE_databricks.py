@@ -44,7 +44,7 @@ except Exception as e:
 
 
 ```python
-# Initialize Spark Session
+# Initialize Spark session
 try:
     spark
 except NameError:
@@ -52,53 +52,25 @@ except NameError:
     spark = SparkSession.builder \
         .appName("Post_SNOW_PIPELINE") \
         .getOrCreate()
-from pyspark.sql import Row
-import os
-from datetime import datetime
 import logging
+logger = logging.getLogger('py4j')
+logger.setLevel(logging.INFO)
 
-# Configure logging
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+# Step 3: Read Data
+read_data_1 = spark.read.format("UNKNOWN").load()
 
-# Step 1: Read Data
-try:
-    read_data_1 = spark.read.format("UNKNOWN").load()
-    logger.info("Data read successfully from UNKNOWN source.")
-except Exception as e:
-    logger.error(f"Error reading data from UNKNOWN source: {e}")
+# Step 4: Filter
+filter_3 = read_data_1.filter(some_condition)  # Replace 'some_condition' with actual filter logic
 
-# Step 2: Filter
-filter_3 = read_data_1  # Placeholder for actual filtering logic
-try:
-    filter_3 = filter_3.filter("some_condition")  # Example filter condition, replace with actual criteria
-    logger.info("Filter applied successfully.")
-except Exception as e:
-    logger.error(f"Error applying filter: {e}")
+# Step 5: Sort
+sort_4 = filter_3.orderBy(col('column_name').asc())  # Adjust sorting as needed
 
-# Step 3: Sort
-sort_4 = filter_3
-try:
-    sort_4 = sort_4.orderBy("column_name")  # Example sorting, replace with actual column and order
-    logger.info("Sorting applied successfully.")
-except Exception as e:
-    logger.error(f"Error applying sorting: {e}")
+# Step 6: Custom Code
+# Add your custom transformation here
+custom_code_5 = sort_4.select("*")  # Example: Select all columns from the DataFrame
 
-# Step 4: Custom Code
-custom_code_5 = sort_4
-try:
-    # Add your custom transformation here
-    custom_code_5 = custom_code_5.withColumn("new_column", when(col("existing_column") > 0, lit("some_value")).otherwise(lit("other_value")))
-    logger.info("Custom code executed successfully.")
-except Exception as e:
-    logger.error(f"Error executing custom code: {e}")
+# Step 7: Write Data
+write_data(custom_code_5, "UNKNOWN", format="DELTA")  # Replace 'format' with actual format if needed
 
-# Step 5: Write Data
-try:
-    custom_code_5.write.format("UNKNOWN").mode("overwrite").save()
-    logger.info("Data written successfully to UNKNOWN destination.")
-except Exception as e:
-    logger.error(f"Error writing data to UNKNOWN destination: {e}")
-
-# Step 6: Cleanup
-logger.info("Pipeline execution completed.")
+# Step 8: Cleanup
+logger.info("Pipeline execution completed successfully.")
